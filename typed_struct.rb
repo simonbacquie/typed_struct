@@ -10,7 +10,7 @@ class TypedStruct
     @type_errors = []
     @requirement_errors = []
 
-    raise ArgumentError, @requirement_errors.join(',') unless valid_by_requirements?(params.keys)
+    raise ArgumentError, @requirement_errors.join(', ') unless valid_by_requirements?(params.keys)
     raise TypeError, @type_errors.join(', ') unless valid_by_types?(params)
 
     set_initial_values(params)
