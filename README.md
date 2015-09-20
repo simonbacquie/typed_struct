@@ -36,5 +36,5 @@ ArgumentError: Attribute 'title' is required, Attribute 'taken_at' is required
 
 To run specs:
 ```
-ruby -Ilib:test test/minitest
+ruby -Ilib:test test/minitest/*
 ```

@@ -1,4 +1,5 @@
 require_relative "../../typed_struct.rb"
+require_relative "../../image_metadata.rb"
 require "minitest/autorun"
 
 describe TypedStruct do
