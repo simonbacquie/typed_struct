@@ -34,7 +34,11 @@ ImageMetadata.new(pixel_width: 640, pixel_height: 480)
 ArgumentError: Attribute 'title' is required, Attribute 'taken_at' is required
 ```
 
+Any extra attributes passed in to the constructor will be ignored.
+
 To run specs:
 ```
 ruby -Ilib:test test/minitest/*
 ```
+
+I chose to set this up as a class that extends a base class, so that it'd behave similar to ActiveRecord where you define relationships and properties on the object, in a declarative syntax at the top of the file. I chose to ignore fields that are not defined as attributes, so that the object can be used to filter out unwanted fields from an existing Hash.
