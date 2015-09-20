@@ -38,3 +38,9 @@ If required fields are missing:
 ImageMetadata.new(pixel_width: 640, pixel_height: 480)
 ArgumentError: Attribute 'title' is required, Attribute 'taken_at' is required
 ```
+
+To run specs:
+
+```
+ruby -Ilib:test test/minitest
+```
