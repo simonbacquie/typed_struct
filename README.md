@@ -2,9 +2,7 @@ This allows you to define a data structure with a set of attributes, restricted 
 
 First, create a class that extends TypedStruct:
 
-```
-class ImageMetadata < TypedStruct>
-``
+  class ImageMetadata < TypedStruct>
 
 Then, define the attributes that you need:
 
