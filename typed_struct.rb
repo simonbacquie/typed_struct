@@ -24,7 +24,13 @@ class TypedStruct
 
   def create_setters attributes
     attributes.each do |a|
-      self.instance_eval("def #{a}=(new_value);@attribute_#{a}=new_value;end") if defined_attribute?(a)
+      if defined_attribute?(a)
+        evaled_code =  "def #{a}=(new_value);"
+        evaled_code << "assignment_type_check(:#{a}, new_value);"
+        evaled_code << "@attribute_#{a}=new_value;"
+        evaled_code << "end"
+        self.instance_eval(evaled_code)
+      end
     end
   end
 
@@ -44,9 +50,13 @@ class TypedStruct
     @@defined_attributes.include? attribute
   end
 
+  def assignment_type_check attribute, new_value
+    raise TypeError, type_error_message(attribute) if @@types[attribute] != new_value.class
+  end
+
   def valid_by_requirements? attributes
     (@@required_attributes - attributes).each do |ra|
-      @requirement_errors << "Attribute '#{ra}' is required"
+      @requirement_errors << requirement_error_message(ra)
     end
 
     return false if @requirement_errors.length > 0
@@ -56,12 +66,20 @@ class TypedStruct
   def valid_by_types? params
     params.keys.each do |p|
       if @@types[p] && @@types[p] != params[p].class
-        @type_errors << "Attribute '#{p}' must be of type #{@@types[p].to_s}"
+        @type_errors << type_error_message(p)
       end
     end
 
     return false if @type_errors.length > 0
     true
+  end
+
+  def type_error_message attribute
+    "Attribute '#{attribute}' must be of type #{@@types[attribute].to_s}"
+  end
+
+  def requirement_error_message required_attribute
+    "Attribute '#{required_attribute}' is required"
   end
 
 end

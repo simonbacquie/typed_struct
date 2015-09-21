@@ -4,17 +4,10 @@ require "minitest/autorun"
 
 describe TypedStruct do
 
-  before do
-    # let(:metadata) { ImageMetadata.new(params) }
-    # @metadata = ImageMetadata.new(params);
-  end
-
-  # describe "missing required attributes" do
   it "fails with ArgumentError when required attributes are missing" do
     params = {pixel_width: 640, pixel_height: 480}
     ->{ ImageMetadata.new(params) }.must_raise ArgumentError
   end
-  # end
 
   it "fails with TypeError when attributes have the wrong type" do
     params = {title: "Test", taken_at: "2015-09-06"}
@@ -33,6 +26,12 @@ describe TypedStruct do
     struct = ImageMetadata.new(params)
     struct.title = "Modified Title"
     struct.title.must_equal "Modified Title"
+  end
+
+  it "checks the type when using the assignment methods" do
+    params = {title: "Test", taken_at: Time.now}
+    struct = ImageMetadata.new(params)
+    ->{ struct.title = 123 }.must_raise TypeError
   end
 
   it "ignores attributes passed that are not defined in the class" do
